@@ -1,4 +1,4 @@
-Estado, Creada,Pedido Compra,Solicitante,Producto,Cantidad,Requerido al,Entrega Estimada
+State,Created,PC,Requester,Product,Quantity,Required,ETA
 P,1.7.2025,PC-10121,"OSORES, MANUEL HORACIO",Faja lumbar ,.1.000000,02.7.2025,7.7.2025
 P,1.7.2025,PC-10120,"MEDINA, GONZALO",CHAPA LISA 2 mm - AISI 316L,.1.000000,09.7.2025,7.7.2025
 P,1.7.2025,PC-10123,"VERA, FRANCO DARIO",REDONDO AISI 304 - Ø10 mm,.1.000000,01.7.2025,4.7.2025
