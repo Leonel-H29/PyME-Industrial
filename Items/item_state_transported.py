@@ -3,6 +3,7 @@ from Items.item_state_received import ItemStateReceived
 
 
 class ItemStateTransported(ItemState):
+
     def quote(self, item):
         raise Exception("El item ya ha sido solicitado.")
 
@@ -13,7 +14,7 @@ class ItemStateTransported(ItemState):
         raise Exception("El item ya esta en camino.")
 
     def receive(self, item):
-        item.__item_state = ItemStateReceived()
+        item.set_state(ItemStateReceived())
         print("Transición: Transportando -> Recibidoo")
 
     def refund(self, item):
@@ -22,5 +23,5 @@ class ItemStateTransported(ItemState):
     def cancel(self, item):
         raise Exception("No se puede cancelar en estado Transportando.")
 
-    def getStatus(self) -> str:
+    def __str__(self) -> str:
         return "TRANSPORTADO"

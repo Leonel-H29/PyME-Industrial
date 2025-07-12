@@ -4,6 +4,7 @@ from Items.item_state_refund import ItemStateRefund
 
 
 class ItemStateReceived(ItemState):
+
     def quote(self, item):
         raise Exception("El item ya ha sido solicitado.")
 
@@ -17,11 +18,11 @@ class ItemStateReceived(ItemState):
         raise Exception("El item ya ha sido entregado.")
 
     def refund(self, item):
-        item.__item_state = ItemStateRefund()
+        item.set_state(ItemStateRefund())
         print("Transición: Recibido -> Devuelto")
 
     def cancel(self, item):
         raise Exception("No se puede cancelar en estado Recibido.")
 
-    def getStatus(self) -> str:
+    def __str__(self) -> str:
         return "RECIBIDO"

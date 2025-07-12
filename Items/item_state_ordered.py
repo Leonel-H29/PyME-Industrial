@@ -4,6 +4,7 @@ from Items.item_state_transported import ItemStateTransported
 
 
 class ItemStateOrdered(ItemState):
+
     def quote(self, item):
         raise Exception("El item ya ha sido solicitado.")
 
@@ -11,7 +12,7 @@ class ItemStateOrdered(ItemState):
         raise Exception("El item ya ha sido ordernado.")
 
     def transport(self, item):
-        item.__item_state = ItemStateTransported()
+        item.set_state(ItemStateTransported())
         print("Transición: Ordenado -> Transportando")
 
     def receive(self, item):
@@ -21,8 +22,8 @@ class ItemStateOrdered(ItemState):
         raise Exception("No se puede devolver en estado Ordenado.")
 
     def cancel(self, item):
-        item.__item_state = ItemStateCanceled()
-        print("Transición: Solicitado -> Cancelado")
+        item.set_state(ItemStateCanceled())
+        print("Transición: Ordenado -> Cancelado")
 
-    def getStatus(self) -> str:
+    def __str__(self) -> str:
         return "ORDENADO"

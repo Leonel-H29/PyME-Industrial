@@ -4,11 +4,12 @@ from Items.item_state_ordered import ItemStateOrdered
 
 
 class ItemStateQuoted(ItemState):
+
     def quote(self, item):
         raise Exception("El item ya ha sido solicitado.")
 
     def order(self, item):
-        item.__item_state = ItemStateOrdered()
+        item.set_state(ItemStateOrdered())
         print("Transición: Cotizando -> Ordenado")
 
     def transport(self, item):
@@ -21,8 +22,8 @@ class ItemStateQuoted(ItemState):
         raise Exception("No se puede devolver en estado Cotizado.")
 
     def cancel(self, item):
-        item.__item_state = ItemStateCanceled()
+        item.set_state(ItemStateCanceled())
         print("Transición: Cotizado -> Cancelado")
 
-    def getStatus(self) -> str:
+    def __str__(self) -> str:
         return "COTIZADO"

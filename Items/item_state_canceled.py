@@ -2,6 +2,7 @@ from Items.item_state import ItemState
 
 
 class ItemStateCanceled(ItemState):
+
     def quote(self, item):
         raise Exception("El item ya ha sido cancelado")
 
@@ -20,5 +21,5 @@ class ItemStateCanceled(ItemState):
     def cancel(self, item):
         raise Exception("El item ya ha sido cancelado")
 
-    def getStatus(self) -> str:
+    def __str__(self) -> str:
         return "CANCELADO"

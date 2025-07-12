@@ -2,6 +2,7 @@ from Items.item_state import ItemState
 
 
 class ItemStateRefund(ItemState):
+
     def quote(self, item):
         raise Exception("El item ya ha sido devuelto")
 
@@ -20,5 +21,5 @@ class ItemStateRefund(ItemState):
     def cancel(self, item):
         raise Exception("El item ya ha sido devuelto")
 
-    def getStatus(self) -> str:
+    def __str__(self) -> str:
         return "DEVUELTO"

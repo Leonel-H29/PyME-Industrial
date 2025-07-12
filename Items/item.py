@@ -25,7 +25,7 @@ class Item:
             - UM: {self.__metric_unit}
             - Área de producción: {self.__production_area}
             - Solicitante: {self.__petitioner}
-            - Estado: {self.getStatus()}
+            - Estado: {self.__item_state}
         """
 
     def quote(self) -> None:
@@ -46,5 +46,8 @@ class Item:
     def cancel(self) -> None:
         self.__item_state.cancel(self)
 
-    def getStatus(self) -> str:
-        return self.__item_state.getStatus()
+    def set_state(self, new_state: ItemState):
+        self.__item_state = new_state
+
+    def get_state(self):
+        return self.__item_state

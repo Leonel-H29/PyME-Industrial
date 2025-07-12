@@ -4,8 +4,9 @@ from Items.item_state_canceled import ItemStateCanceled
 
 
 class ItemStateRequired(ItemState):
+
     def quote(self, item):
-        item.__item_state = ItemStateQuoted()
+        item.set_state(ItemStateQuoted())
         print("Transición: Solicitado -> Cotizando")
 
     def order(self, item):
@@ -21,8 +22,8 @@ class ItemStateRequired(ItemState):
         raise Exception("No se puede devolver en estado Solicitado.")
 
     def cancel(self, item):
-        item.__item_state = ItemStateCanceled()
+        item.set_state(ItemStateCanceled())
         print("Transición: Solicitado -> Cancelado")
 
-    def getStatus(self) -> str:
+    def __str__(self) -> str:
         return "SOLICITADO"

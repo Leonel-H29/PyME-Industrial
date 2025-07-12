@@ -3,25 +3,22 @@ from abc import ABC, abstractmethod
 
 class ItemState(ABC):
     @abstractmethod
-    def quote(self, item) -> None:
-        pass
+    def quote(self, item) -> None: pass
 
     @abstractmethod
-    def order(self, item) -> None:
-        pass
+    def order(self, item) -> None: pass
 
     @abstractmethod
-    def transport(self, item) -> None:
-        pass
+    def transport(self, item) -> None: pass
 
     @abstractmethod
-    def refund(self, item) -> None:
-        pass
+    def receive(self, item) -> None: pass
 
     @abstractmethod
-    def cancel(self, item) -> None:
-        pass
+    def refund(self, item) -> None: pass
 
     @abstractmethod
-    def getStatus(self) -> str:
-        pass
+    def cancel(self, item) -> None: pass
+
+    @abstractmethod
+    def __str__(self) -> str: pass
