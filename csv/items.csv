@@ -1,4 +1,4 @@
-ID,State,Created,PC,Requestor,Product,Quantity,Required,ETA,Subscriptors
+ID,State,Created,PC,Petitioner,Product,Quantity,Required,ETA,Subscriptors
 ITEM-0001,Abierto,2025-07-01,PC-10121,OSORES MANUEL HORACIO,Faja lumbar,1.0,2025-07-02,2025-07-07,
 ITEM-0002,Abierto,2025-07-01,PC-10120,MEDINA GONZALO,CHAPA LISA 2 mm - AISI 316L,1.0,2025-07-09,2025-07-07,
 ITEM-0003,Abierto,2025-07-01,PC-10123,VERA FRANCO DARIO,REDONDO AISI 304 - Ø10 mm,1.0,2025-07-01,2025-07-04,
