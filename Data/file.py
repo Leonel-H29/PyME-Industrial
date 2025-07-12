@@ -1,8 +1,10 @@
 from __future__ import annotations
 import csv
 
+
 class File:
-    __file : File
+    __file: File
+
     def __init__(self, path: str = ""):
         self.path = path
 
@@ -19,7 +21,8 @@ class File:
 
     def open(self):
         try:
-            self.__file = open(self.path, mode='r', newline='', encoding='utf-8')
+            self.__file = open(self.path, mode='r',
+                               newline='', encoding='utf-8')
             print("Archivo abierto.")
         except FileNotFoundError:
             print("Archivo no encontrado.")
