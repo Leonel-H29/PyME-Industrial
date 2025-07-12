@@ -1,23 +1,27 @@
-from abc import ABC, abstractclassmethod
+from abc import ABC, abstractmethod
 
 
 class ItemState(ABC):
-    @abstractclassmethod
-    def quote() -> None:
+    @abstractmethod
+    def quote(self, item) -> None:
         pass
 
-    @abstractclassmethod
-    def order() -> None:
+    @abstractmethod
+    def order(self, item) -> None:
         pass
 
-    @abstractclassmethod
-    def transport() -> None:
+    @abstractmethod
+    def transport(self, item) -> None:
         pass
 
-    @abstractclassmethod
-    def refund() -> None:
+    @abstractmethod
+    def refund(self, item) -> None:
         pass
 
-    @abstractclassmethod
-    def cancel() -> None:
+    @abstractmethod
+    def cancel(self, item) -> None:
+        pass
+
+    @abstractmethod
+    def getStatus(self) -> str:
         pass
