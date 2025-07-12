@@ -47,4 +47,4 @@ class Item:
         self.__item_state.cancel(self)
 
     def getStatus(self) -> str:
-        return self.__item_state.getStatus(self)
+        return self.__item_state.getStatus()
