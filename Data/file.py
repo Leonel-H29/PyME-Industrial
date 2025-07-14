@@ -4,7 +4,7 @@ import os
 
 
 class File:
-    _instance: File = None  
+    _instance: File|None = None  
 
     def __new__(cls, path: str = ""):
         if cls._instance is None:
