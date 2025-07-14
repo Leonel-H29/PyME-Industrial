@@ -1,12 +1,17 @@
 from __future__ import annotations
 import csv
+import os
 
 
 class File:
-    __file: File
+    _instance: File = None  
 
-    def __init__(self, path: str = ""):
-        self.path = path
+    def __new__(cls, path: str = ""):
+        if cls._instance is None:
+            cls._instance = super(File, cls).__new__(cls)
+            cls._instance.path = os.path.abspath(path)
+            cls._instance._file_handle = None
+        return cls._instance
 
     def itemsFromFile(self):
         items = []
@@ -21,17 +26,16 @@ class File:
 
     def open(self):
         try:
-            self.__file = open(self.path, mode='r',
-                               newline='', encoding='utf-8')
+            self._file_handle = open(self.path, mode='r', newline='', encoding='utf-8')
             print("Archivo abierto.")
         except FileNotFoundError:
             print("Archivo no encontrado.")
 
     def close(self):
-        if self.__file:
-            self.__file.close()
+        if self._file_handle:
+            self._file_handle.close()
             print("Archivo cerrado.")
-            self.__file = None
+            self._file_handle = None
 
     def get_path(self):
         return self.path
