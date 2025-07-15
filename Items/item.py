@@ -13,7 +13,7 @@ class Item:
 
     def __init__(self, product: str, metric_unit: MetricUnitEnum, quantity: int, petitioner: str, production_area: str):
         self.__product = product
-        self.__metric_unit = metric_unit.value
+        self.__metric_unit = self.__validate_metric_unit(metric_unit)
         self.__quantity = quantity
         self.__petitioner = petitioner
         self.__production_area = production_area
@@ -28,6 +28,22 @@ class Item:
             - Solicitante: {self.__petitioner}
             - Estado: {self.__item_state}
         """
+
+    def __validate_metric_unit(self, metric_unit) -> str:
+        if not isinstance(metric_unit, (MetricUnitEnum, str)):
+            raise TypeError(
+                f"Tipo inválido para unidad métrica: {type(metric_unit)}. Debe ser str o MetricUnitEnum.")
+
+        if isinstance(metric_unit, MetricUnitEnum):
+            return metric_unit.value
+
+        try:
+            enum_value = MetricUnitEnum(metric_unit)
+            return enum_value.value
+        except ValueError:
+            valid_units = [e.value for e in MetricUnitEnum]
+            raise ValueError(
+                f"Unidad métrica inválida: {metric_unit}. Debe ser una de {valid_units}.")
 
     def quote(self) -> None:
         self.__item_state.quote(self)
