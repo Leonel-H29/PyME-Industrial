@@ -1,18 +1,19 @@
 from Items.item_state import ItemState
 from Items.item_state_required import ItemStateRequired
+from Items.enums.metric_unit_enum import MetricUnitEnum
 
 
 class Item:
-    __name: str
-    __metric_unit: str
+    __product: str
+    __metric_unit: MetricUnitEnum
     __quantity: int
     __petitioner: str
     __production_area: str
     __item_state: ItemState
 
-    def __init__(self, name: str, metric_unit: str, quantity: int, petitioner: str, production_area: str):
-        self.__name = name
-        self.__metric_unit = metric_unit
+    def __init__(self, product: str, metric_unit: MetricUnitEnum, quantity: int, petitioner: str, production_area: str):
+        self.__product = product
+        self.__metric_unit = metric_unit.value
         self.__quantity = quantity
         self.__petitioner = petitioner
         self.__production_area = production_area
@@ -20,7 +21,7 @@ class Item:
 
     def __str__(self) -> str:
         return f"""
-            - Item: {self.__name}
+            - Item: {self.__product}
             - Cantidad: {self.__quantity}
             - UM: {self.__metric_unit}
             - Área de producción: {self.__production_area}
