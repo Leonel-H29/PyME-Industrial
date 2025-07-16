@@ -1,7 +1,7 @@
 from Observer.observer import Observer
+from abc import ABC
 
-
-class Subject:
+class Subject(ABC):
 
     __observers: list[Observer]
 
