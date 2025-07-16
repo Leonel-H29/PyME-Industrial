@@ -1,4 +1,6 @@
-class User:
+from Observer.observer import Observer
+
+class User(Observer):
 
     __email: str
 

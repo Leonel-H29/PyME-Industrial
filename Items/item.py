@@ -1,9 +1,9 @@
 from Items.item_state import ItemState
 from Items.item_state_required import ItemStateRequired
 from Items.enums.metric_unit_enum import MetricUnitEnum
+from Observer.subject import Subject
 
-
-class Item:
+class Item(Subject):
     __product: str
     __metric_unit: MetricUnitEnum
     __quantity: int
