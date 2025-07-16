@@ -3,6 +3,7 @@ from Items.item_state_required import ItemStateRequired
 from Items.enums.metric_unit_enum import MetricUnitEnum
 from Observer.subject import Subject
 
+
 class Item(Subject):
     __product: str
     __metric_unit: MetricUnitEnum
@@ -12,6 +13,7 @@ class Item(Subject):
     __item_state: ItemState
 
     def __init__(self, product: str, metric_unit: MetricUnitEnum, quantity: int, petitioner: str, production_area: str):
+        super().__init__()
         self.__product = product
         self.__metric_unit = self.__validate_metric_unit(metric_unit)
         self.__quantity = quantity
@@ -65,6 +67,7 @@ class Item(Subject):
 
     def set_state(self, new_state: ItemState):
         self.__item_state = new_state
+        self.notify(self, f"El estado del item cambió a {self.get_state()}")
 
     def get_state(self):
         return self.__item_state
