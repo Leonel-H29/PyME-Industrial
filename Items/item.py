@@ -1,5 +1,5 @@
-from Items.item_state import ItemState
-from Items.item_state_required import ItemStateRequired
+from Items.states.item_state import ItemState
+from Items.states.item_state_required import ItemStateRequired
 from Items.enums.metric_unit_enum import MetricUnitEnum
 from Observer.subject import Subject
 

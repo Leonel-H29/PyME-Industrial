@@ -1,5 +1,5 @@
-from Items.item_state import ItemState
-from Items.item_state_received import ItemStateReceived
+from Items.states.item_state import ItemState
+from Items.states.item_state_received import ItemStateReceived
 
 
 class ItemStateTransported(ItemState):

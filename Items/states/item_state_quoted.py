@@ -1,6 +1,6 @@
-from Items.item_state import ItemState
-from Items.item_state_canceled import ItemStateCanceled
-from Items.item_state_ordered import ItemStateOrdered
+from Items.states.item_state import ItemState
+from Items.states.item_state_canceled import ItemStateCanceled
+from Items.states.item_state_ordered import ItemStateOrdered
 
 
 class ItemStateQuoted(ItemState):
