@@ -15,16 +15,27 @@ class DBManager:
         return cls._instance
 
     def _init_db(self, db_path):
-        self.conn: Connection = sqlite3.connect(
-            db_path, check_same_thread=False)
-        self.conn.row_factory = sqlite3.Row
+        try:
+            self.conn: Connection = sqlite3.connect(
+                db_path, check_same_thread=False)
+            self.conn.row_factory = sqlite3.Row
+        except sqlite3.Error as e:
+            print(f"Error al conectar a la base de datos: {e}")
+            self.conn = None
 
     def execute(self, query, params=(), commit=False):
-        cursor = self.conn.cursor()
-        cursor.execute(query, params)
-        if commit:
-            self.conn.commit()
-        return cursor
+        if not self.conn:
+            print("No hay conexión a la base de datos.")
+            return None
+        try:
+            cursor = self.conn.cursor()
+            cursor.execute(query, params)
+            if commit:
+                self.conn.commit()
+            return cursor
+        except sqlite3.Error as e:
+            print(f"Error al ejecutar la consulta: {e}")
+            return None
 
     def insert(self, table, data: dict):
         keys = ', '.join(data.keys())
