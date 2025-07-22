@@ -4,6 +4,6 @@ It receives commands from the CLI module, executes them either by delegating the
 to other modules or by itself.
 """
 
-class MiPyME:
-    pass
 
+class MySME:
+    pass
