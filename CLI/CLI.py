@@ -3,7 +3,7 @@ from cmd import Cmd
 from MySME.mySME import MySME
 
 
-class MySMEShell(Cmd):
+class CLI(Cmd):
     intro = 'Bienvendio a la shell de MiPyME\n\nPara una lista completa de comandos ingrese "help" o "?"\n'
     prompt = '(MiPyME)/> '
 

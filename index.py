@@ -1,4 +1,4 @@
-from CLI.CLI import MipymeShell
+from CLI.CLI import CLI
 
 if __name__ == '__main__':
-   MipymeShell().cmdloop()
+   CLI().cmdloop()
