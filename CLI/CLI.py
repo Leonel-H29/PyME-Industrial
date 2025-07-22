@@ -6,6 +6,7 @@ from MySME.mySME import MySME
 class CLI(Cmd):
     intro = 'Bienvendio a la shell de MiPyME\n\nPara una lista completa de comandos ingrese "help" o "?"\n'
     prompt = '(MiPyME)/> '
+    mysme = MySME()
 
     # Accepted commands
 
@@ -18,11 +19,18 @@ class CLI(Cmd):
         print('Finalizando MiPyME.')
         return True
 
-    def do_add_supply_request(self, arg):
+    def do_add_supply(self, arg):
         """Adds a supply request."""
-        pass
+        #print(self.__parse(arg))
+        args = self.__parse(arg)
+        print(args)
+        self.mysme.add_supply(args[0], int(args[1]), args[2], args[3])
 
-    def do_add_service_request(self, arg):
+    def do_show_supplies(self, arg):
+        """Show a list with all supplies"""
+        self.mysme.show_supply()
+
+    def do_add_service(self, arg):
         """Adds a service request."""
         pass
 
@@ -36,3 +44,13 @@ class CLI(Cmd):
             os.system('cls')
         else:  # For Linux/macOS
             os.system('clear')
+    
+    def __parse(self, arg):
+        'Convert a series of zero or more numbers to an argument tuple'
+        return tuple(arg.split(" "))
+
+
+
+
+
+
