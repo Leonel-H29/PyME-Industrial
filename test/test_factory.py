@@ -5,6 +5,7 @@ from Items.supply import Supply
 from Items.third_party_service import ThirdPartyServices
 from Items.enums.metric_unit_enum import MetricUnitEnum
 
+
 def test_supply_factory_creates_supply():
     factory = SupplyFactory()
     product = "Chapa lisa"
@@ -15,10 +16,11 @@ def test_supply_factory_creates_supply():
     item = factory.create_item(product, quantity, metric_unit, petitioner)
 
     assert isinstance(item, Supply)
-    assert item.product == product
-    assert item.quantity == quantity
-    assert item.metric_unit == metric_unit.value
-    assert item.petitioner == petitioner
+    assert item.get_product() == product
+    assert item.get_quantity() == quantity
+    assert item.get_metric_unit() == metric_unit.value
+    assert item.get_petitioner() == petitioner
+
 
 def test_third_party_services_factory_creates_service():
     factory = ThirdPartyServicesFactory()
@@ -29,6 +31,6 @@ def test_third_party_services_factory_creates_service():
     item = factory.create_item(service, provider, petitioner)
 
     assert isinstance(item, ThirdPartyServices)
-    assert item.service == service
-    assert item.provider == provider
-    assert item.petitioner == petitioner
+    assert item.get_service() == service
+    assert item.get_provider() == provider
+    assert item.get_petitioner() == petitioner

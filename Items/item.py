@@ -71,7 +71,6 @@ class Item(Subject):
 
     def get_state(self):
         return self.__item_state
-    
-    @property
-    def petitioner(self):
+
+    def get_petitioner(self):
         return self.__petitioner
