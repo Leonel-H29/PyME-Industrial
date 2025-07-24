@@ -5,7 +5,7 @@ from abc import ABC, abstractmethod
 
 
 class DBItems(ABC):
-    TABLE_NAME = None
+    TABLE_NAME: str | None = None
 
     def __init__(self):
         self.db = DBManager()
@@ -15,9 +15,14 @@ class DBItems(ABC):
     def create_table(self):
         pass
 
-    @abstractmethod
     def item_to_dict(self, item: Item, subscribers=""):
-        pass
+        return {
+            "created": item._Item__created.strftime('%Y-%m-%d %H:%M:%S'),
+            "lastUpdated": item._Item__last_updated.strftime('%Y-%m-%d %H:%M:%S'),
+            "state": str(item.get_state()),
+            "petitioner": item.get_petitioner(),
+            "subscribers": subscribers,
+        }
 
     def create(self, item: Item, subscribers=""):
         data = self.item_to_dict(item, subscribers)
