@@ -9,7 +9,7 @@ class Supply(Item):
         self.__quantity = quantity
         self.__metric_unit = self.__validate_metric_unit(metric_unit)
 
-    def __validate_metric_unit(metric_unit) -> str:
+    def __validate_metric_unit(self, metric_unit) -> str:
         if not isinstance(metric_unit, (MetricUnitEnum, str)):
             raise TypeError(
                 f"Tipo inválido para unidad métrica: {type(metric_unit)}. Debe ser str o MetricUnitEnum.")
