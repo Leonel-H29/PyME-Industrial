@@ -26,23 +26,6 @@ class Item(Subject):
             f"- Estado: {self.__item_state}"
         )
 
-    @staticmethod
-    def _validate_metric_unit(metric_unit) -> str:
-        if not isinstance(metric_unit, (MetricUnitEnum, str)):
-            raise TypeError(
-                f"Tipo inválido para unidad métrica: {type(metric_unit)}. Debe ser str o MetricUnitEnum.")
-
-        if isinstance(metric_unit, MetricUnitEnum):
-            return metric_unit.value
-
-        try:
-            enum_value = MetricUnitEnum(metric_unit)
-            return enum_value.value
-        except ValueError:
-            valid_units = [e.value for e in MetricUnitEnum]
-            raise ValueError(
-                f"Unidad métrica inválida: {metric_unit}. Debe ser una de {valid_units}.")
-
     def __update_timestamp(self):
         self.__last_updated = datetime.now()
 

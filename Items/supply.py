@@ -1,4 +1,5 @@
 from Items.item import Item
+from Items.enums.metric_unit_enum import MetricUnitEnum
 
 
 class Supply(Item):
@@ -6,7 +7,23 @@ class Supply(Item):
         super().__init__(petitioner)
         self.__product = product
         self.__quantity = quantity
-        self.__metric_unit = self._validate_metric_unit(metric_unit)
+        self.__metric_unit = self.__validate_metric_unit(metric_unit)
+
+    def __validate_metric_unit(metric_unit) -> str:
+        if not isinstance(metric_unit, (MetricUnitEnum, str)):
+            raise TypeError(
+                f"Tipo inválido para unidad métrica: {type(metric_unit)}. Debe ser str o MetricUnitEnum.")
+
+        if isinstance(metric_unit, MetricUnitEnum):
+            return metric_unit.value
+
+        try:
+            enum_value = MetricUnitEnum(metric_unit)
+            return enum_value.value
+        except ValueError:
+            valid_units = [e.value for e in MetricUnitEnum]
+            raise ValueError(
+                f"Unidad métrica inválida: {metric_unit}. Debe ser una de {valid_units}.")
 
     def get_product(self):
         return self.__product
