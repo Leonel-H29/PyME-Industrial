@@ -17,6 +17,7 @@ class DBItems(ABC):
 
     def item_to_dict(self, item: Item, subscribers=""):
         return {
+            "code": item.get_code(),
             "created": item._Item__created.strftime('%Y-%m-%d %H:%M:%S'),
             "lastUpdated": item._Item__last_updated.strftime('%Y-%m-%d %H:%M:%S'),
             "state": str(item.get_state()),

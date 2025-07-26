@@ -9,6 +9,7 @@ class DBSupply(DBItems):
         query = f"""
         CREATE TABLE IF NOT EXISTS {self.TABLE_NAME} (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            code VARCHAR(10) UNIQUE,
             created DATETIME,
             lastUpdated DATETIME,
             state VARCHAR(15),

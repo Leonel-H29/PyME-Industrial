@@ -18,17 +18,19 @@ class ItemFactory:
 
     @staticmethod
     def change_item_status(item, new_status: str):
-        status_methods = {
-            ItemStatusEnum.QUOTE: item.state.quote,
-            ItemStatusEnum.ORDER: item.state.order,
-            ItemStatusEnum.TRANSPORT: item.state.transport,
-            ItemStatusEnum.RECEIVE: item.state.receive,
-            ItemStatusEnum.REFUND: item.state.refund,
-            ItemStatusEnum.CANCEL: item.state.cancel
-        }
-
         try:
-            status_method = status_methods[new_status]
-            status_method(item)
+            status_methods = {
+                ItemStatusEnum.QUOTE: item.quote,
+                ItemStatusEnum.ORDER: item.order,
+                ItemStatusEnum.TRANSPORT: item.transport,
+                ItemStatusEnum.RECEIVE: item.receive,
+                ItemStatusEnum.REFUND: item.refund,
+                ItemStatusEnum.CANCEL: item.cancel
+            }
+            status_enum = ItemStatusEnum(new_status)
+            status_method = status_methods[status_enum]
+            status_method()
         except KeyError:
             raise ValueError(f"Estado '{new_status}' no reconocido")
+        except ValueError:
+            raise ValueError(f"Estado '{new_status}' no es un estado válido")
