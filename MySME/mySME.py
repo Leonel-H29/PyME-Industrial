@@ -44,7 +44,8 @@ class MySME:
             print(service)
 
     def _load_supplies(self):
-        print(self.__dbSupplies.get())
+        #print(self.__dbSupplies.get())
+        pass
 
     def _save_supplies(self):
         for supply in self.__supplies:
