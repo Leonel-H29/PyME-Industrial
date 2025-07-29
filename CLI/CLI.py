@@ -11,16 +11,16 @@ class CLI(Cmd):
     # Accepted commands
 
     def do_clear(self, arg):
-        """Limpia la pantalla del terminal."""
+        """Clears terminal"""
         self.__clear()
 
     def do_exit(self, arg):
-        """Termina y sale del programa."""
+        """Exit"""
         print('Finalizando MiPyME.')
         return True
 
     def do_add_supply(self, arg):
-        """Adds a supply request."""
+        """Adds a supply request"""
         # print(self.__parse(arg))
         args = self.__parse(arg)
         print(args)
@@ -30,15 +30,15 @@ class CLI(Cmd):
         """Show a list with all supplies"""
         self.mysme.show_supply()
 
-    def do_add_service(self, arg):
-        """Adds a service request."""
+    def do_add_tps(self, arg):
+        """Adds a service request"""
         args = self.__parse(arg)
         print(args)
-        self.mysme.add_third_services(args[0], args[1], args[2])
+        self.mysme.add_tps(args[0], args[1], args[2])
 
-    def do_show_services(self, arg):
-        """Show a list with all third services"""
-        self.mysme.show_third_services()
+    def do_show_tps(self, arg):
+        """Show a list with all third party services"""
+        self.mysme.show_tps()
 
     # Other methods
 
