@@ -5,7 +5,7 @@ from abc import ABC, abstractmethod
 
 
 class DBItems(ABC):
-    TABLE_NAME = None
+    TABLE_NAME: str | None = None
 
     def __init__(self):
         self.db = DBManager()
