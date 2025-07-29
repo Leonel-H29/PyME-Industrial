@@ -40,6 +40,12 @@ class CLI(Cmd):
         """Show a list with all third party services"""
         self.mysme.show_tps()
 
+    def do_load_supplies(self, arg):
+        self.mysme._load_supplies()
+    
+    def do_save_supplies(self, arg):
+        self.mysme._save_supplies()
+
     # Other methods
 
     def preloop(self):
