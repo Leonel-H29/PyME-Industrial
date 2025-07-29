@@ -21,7 +21,7 @@ class CLI(Cmd):
 
     def do_add_supply(self, arg):
         """Adds a supply request."""
-        #print(self.__parse(arg))
+        # print(self.__parse(arg))
         args = self.__parse(arg)
         print(args)
         self.mysme.add_supply(args[0], int(args[1]), args[2], args[3])
@@ -32,7 +32,13 @@ class CLI(Cmd):
 
     def do_add_service(self, arg):
         """Adds a service request."""
-        pass
+        args = self.__parse(arg)
+        print(args)
+        self.mysme.add_third_services(args[0], args[1], args[2])
+
+    def do_show_services(self, arg):
+        """Show a list with all third services"""
+        self.mysme.show_third_services()
 
     # Other methods
 
@@ -44,13 +50,7 @@ class CLI(Cmd):
             os.system('cls')
         else:  # For Linux/macOS
             os.system('clear')
-    
+
     def __parse(self, arg):
         'Convert a series of zero or more numbers to an argument tuple'
         return tuple(arg.split(" "))
-
-
-
-
-
-

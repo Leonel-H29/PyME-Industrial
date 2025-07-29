@@ -15,9 +15,15 @@ class DBItems(ABC):
     def create_table(self):
         pass
 
-    @abstractmethod
     def item_to_dict(self, item: Item, subscribers=""):
-        pass
+        return {
+            "code": item.get_code(),
+            "created": item._Item__created.strftime('%Y-%m-%d %H:%M:%S'),
+            "lastUpdated": item._Item__last_updated.strftime('%Y-%m-%d %H:%M:%S'),
+            "state": str(item.get_state()),
+            "petitioner": item.get_petitioner(),
+            "subscribers": subscribers,
+        }
 
     def create(self, item: Item, subscribers=""):
         data = self.item_to_dict(item, subscribers)

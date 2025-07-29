@@ -6,7 +6,7 @@ from Items.states.item_state_ordered import ItemStateOrdered
 from Items.states.item_state_transported import ItemStateTransported
 from Items.states.item_state_received import ItemStateReceived
 from Items.states.item_state_canceled import ItemStateCanceled
-from Items.states.item_state_refund import ItemStateRefund
+from Items.states.item_state_refunded import ItemStateRefunded
 from Items.enums.metric_unit_enum import MetricUnitEnum
 
 
@@ -35,7 +35,7 @@ def test_valid_transitions(supply):
     assert isinstance(supply.get_state(), ItemStateReceived)
     # Recibido -> Devuelto
     supply.refund()
-    assert isinstance(supply.get_state(), ItemStateRefund)
+    assert isinstance(supply.get_state(), ItemStateRefunded)
 
 
 def test_cancel_in_requested(supply):

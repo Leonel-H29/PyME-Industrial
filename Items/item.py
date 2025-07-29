@@ -1,3 +1,4 @@
+from uuid import uuid4
 from datetime import datetime
 from Items.states.item_state import ItemState
 from Items.states.item_state_required import ItemStateRequired
@@ -10,9 +11,11 @@ class Item(Subject):
     __last_updated: datetime
     __item_state: ItemState
     __petitioner: str
+    __code: str
 
     def __init__(self, petitioner: str):
         super().__init__()
+        self.__code = uuid4().hex[:10]
         self.__created = datetime.now()
         self.__last_updated = self.__created
         self.__item_state = ItemStateRequired()
@@ -20,28 +23,12 @@ class Item(Subject):
 
     def __str__(self) -> str:
         return (
+            f"- Código: {self.__code}\n"
             f"- Creado: {self.__created.strftime('%d/%m/%Y %H:%M:%S')}\n"
             f"- Última actualización: {self.__last_updated.strftime('%d/%m/%Y %H:%M:%S')}\n"
             f"- Solicitante: {self.__petitioner}\n"
             f"- Estado: {self.__item_state}"
         )
-
-    @staticmethod
-    def _validate_metric_unit(metric_unit) -> str:
-        if not isinstance(metric_unit, (MetricUnitEnum, str)):
-            raise TypeError(
-                f"Tipo inválido para unidad métrica: {type(metric_unit)}. Debe ser str o MetricUnitEnum.")
-
-        if isinstance(metric_unit, MetricUnitEnum):
-            return metric_unit.value
-
-        try:
-            enum_value = MetricUnitEnum(metric_unit)
-            return enum_value.value
-        except ValueError:
-            valid_units = [e.value for e in MetricUnitEnum]
-            raise ValueError(
-                f"Unidad métrica inválida: {metric_unit}. Debe ser una de {valid_units}.")
 
     def __update_timestamp(self):
         self.__last_updated = datetime.now()
@@ -71,7 +58,9 @@ class Item(Subject):
 
     def get_state(self):
         return self.__item_state
-    
-    @property
-    def petitioner(self):
+
+    def get_petitioner(self):
         return self.__petitioner
+
+    def get_code(self):
+        return self.__code

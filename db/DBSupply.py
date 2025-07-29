@@ -9,6 +9,7 @@ class DBSupply(DBItems):
         query = f"""
         CREATE TABLE IF NOT EXISTS {self.TABLE_NAME} (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            code VARCHAR(10) UNIQUE,
             created DATETIME,
             lastUpdated DATETIME,
             state VARCHAR(15),
@@ -22,13 +23,10 @@ class DBSupply(DBItems):
         self.db.execute(query, commit=True)
 
     def item_to_dict(self, item: Supply, subscribers=""):
+        base = super().item_to_dict(item, subscribers)
         return {
-            "created": item._Item__created.strftime('%Y-%m-%d %H:%M:%S'),
-            "lastUpdated": item._Item__last_updated.strftime('%Y-%m-%d %H:%M:%S'),
-            "state": str(item.get_state()),
-            "petitioner": item._Item__petitioner,
-            "product": item._Supply__product,
-            "quantity": item._Supply__quantity,
-            "metric_unit": item._Supply__metric_unit,
-            "subscribers": subscribers
+            **base,
+            "product": item.get_product(),
+            "quantity": item.get_quantity(),
+            "metric_unit": item.get_metric_unit(),
         }
