@@ -48,13 +48,13 @@ class MySME:
         for supply in self.__supplies:
             print(supply)
 
-    def update_supply_status(self, code, new_status):
-        # Search the database, convert to object, change state, save and reload list
-        data = next((d for d in self.__dbSupplies.get()
-                    if d['code'] == code), None)
-        if not data:
-            print(f"No se encontró supply con code {code}")
-            return
+    def get_supply_by_code(self, code: str):
+        """Searches for a Supply in the database by its code and returns it as a Supply object."""
+        rows = self.__dbSupplies.db.select(
+            self.__dbSupplies.TABLE_NAME, "code = ?", (code,))
+        if not rows:
+            return None
+        data = dict(rows[0])
         supply = self.__item_factory.create_item(
             ItemTypesEnum.SUPPLY,
             data['product'],
@@ -64,7 +64,10 @@ class MySME:
             data['code']
         )
         supply.add(self.user(data['subscribers']))
-        # Change status
+        return supply
+
+    def update_supply_status(self, code, new_status):
+        supply = self.get_supply_by_code(code)
         self.__change_item_status(supply, new_status)
         self.__dbSupplies.update(code, supply, supply.get_observers())
         self.load_supplies()
@@ -95,11 +98,13 @@ class MySME:
         for tps in self.__third_party_services:
             print(tps)
 
-    def update_third_party_service_status(self, code, new_status):
-        data = next((d for d in self.__dbTPS.get() if d['code'] == code), None)
-        if not data:
-            print(f"No se encontró servicio con code {code}")
-            return
+    def get_third_party_service_by_code(self, code: str):
+        """Searches for a Third Party Service in the database by its code and returns it as an object."""
+        rows = self.__dbTPS.db.select(
+            self.__dbTPS.TABLE_NAME, "code = ?", (code,))
+        if not rows:
+            return None
+        data = dict(rows[0])
         tps = self.__item_factory.create_item(
             ItemTypesEnum.THIRD_PARTY_SERVICES,
             data['service'],
@@ -108,6 +113,9 @@ class MySME:
             data['code']
         )
         tps.add(self.user(data['subscribers']))
+
+    def update_third_party_service_status(self, code, new_status):
+        tps = self.get_third_party_service_by_code(code)
         self.__change_item_status(tps, new_status)
         self.__dbTPS.update(code, tps, tps.get_observers())
         self.load_third_party_services()
