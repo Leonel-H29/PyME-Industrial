@@ -38,7 +38,7 @@ class DBItems(ABC):
 
     def update(self, item_id, item: Item, subscribers=""):
         data = self.item_to_dict(item, subscribers)
-        self.db.update(self.TABLE_NAME, data, "ID = ?", (item_id,))
+        self.db.update(self.TABLE_NAME, data, "code = ?", (item_id,))
 
     def delete(self, item_id):
         self.db.delete(self.TABLE_NAME, "ID = ?", (item_id,))

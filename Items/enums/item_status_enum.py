@@ -5,6 +5,6 @@ class ItemStatusEnum(Enum):
     CANCEL = 'cancel'
     ORDER = 'order'
     QUOTE = 'quote'
-    RECEIVE = 'received'
+    RECEIVE = 'receive'
     REFUND = 'refund'
     TRANSPORT = 'transport'
