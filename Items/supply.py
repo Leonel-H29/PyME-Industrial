@@ -3,8 +3,8 @@ from Items.enums.metric_unit_enum import MetricUnitEnum
 
 
 class Supply(Item):
-    def __init__(self, product: str, quantity: int, metric_unit, petitioner: str):
-        super().__init__(petitioner)
+    def __init__(self, code, product: str, quantity: int, metric_unit, petitioner: str):
+        super().__init__(petitioner, code)
         self.__product = product
         self.__quantity = quantity
         self.__metric_unit = self.__validate_metric_unit(metric_unit)

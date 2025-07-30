@@ -23,6 +23,8 @@ class MySME:
         self.__dbSupplies = DBSupply()
         self.__dbTPS = DBThirdPartyServices()
 
+        self._load_supplies()
+
     def add_supply(self, product, quantity, metric_unit, petitioner):
 
         self.__supplies.append(
@@ -45,9 +47,10 @@ class MySME:
 
     def _load_supplies(self):
         list_supply = self.__dbSupplies.get()
-        #print(list_supply)
+        
         for dict in list_supply:
             supply = self.__item_factory.create_item(ItemTypesEnum.SUPPLY,
+                                                    dict['code'],
                                                     dict['product'],
                                                     dict['quantity'],
                                                     dict['metric_unit'],

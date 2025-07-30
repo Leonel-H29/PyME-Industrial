@@ -13,9 +13,9 @@ class Item(Subject):
     __petitioner: str
     __code: str
 
-    def __init__(self, petitioner: str):
+    def __init__(self, petitioner: str, code=None):
         super().__init__()
-        self.__code = uuid4().hex[:10]
+        self.__code = self.__validate_code(code)
         self.__created = datetime.now()
         self.__last_updated = self.__created
         self.__item_state = ItemStateRequired()
@@ -32,6 +32,9 @@ class Item(Subject):
 
     def __update_timestamp(self):
         self.__last_updated = datetime.now()
+
+    def __validate_code(self, code):
+        return code if code else uuid4().hex[:10]
 
     def quote(self) -> None:
         self.__item_state.quote(self)
