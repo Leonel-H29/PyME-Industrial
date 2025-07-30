@@ -14,7 +14,7 @@ class User(Observer):
         if re.match(pattern, email) is None:
             raise ValueError("El correo electrónico no es válido")
         return email
-
+    
     def update(self, item, message):
         print(
             f"Notificando a {self.__email}: {message} (\nItem: {item}, \nEstado: {item.get_state()}\n)")

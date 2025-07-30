@@ -1,7 +1,6 @@
 from Observer.observer import Observer
 from abc import ABC
 
-
 class Subject(ABC):
 
     __observers: list
@@ -18,3 +17,9 @@ class Subject(ABC):
     def notify(self, item, message):
         for observer in self.__observers:
             observer.update(item, message)
+    
+    def get_observers(self) -> str:
+        observers: str = ""
+        for observer in self.__observers:
+            observers += observer.get_email()
+        return observers

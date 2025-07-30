@@ -3,6 +3,7 @@ from Factory_method.item_factory import ItemFactory
 from Items.enums.item_types_enum import ItemTypesEnum
 from db.DBSupply import DBSupply
 from db.DBThirdPartyServices import DBThirdPartyServices
+from User.user import User
 """
 This module orchestrates the interaction between the different modules on this software.
 It receives commands from the CLI module, executes them either by delegating the responsibility
@@ -55,8 +56,10 @@ class MySME:
                                                     dict['quantity'],
                                                     dict['metric_unit'],
                                                     dict['petitioner'])
+            supply.add(User(dict['subscribers'] + "@mipyme.com"))
             self.__supplies.append(supply)
 
     def _save_supplies(self):
         for supply in self.__supplies:
             self.__dbSupplies.create(supply, supply.get_petitioner())
+    

@@ -27,7 +27,8 @@ class Item(Subject):
             f"- Creado: {self.__created.strftime('%d/%m/%Y %H:%M:%S')}\n"
             f"- Última actualización: {self.__last_updated.strftime('%d/%m/%Y %H:%M:%S')}\n"
             f"- Solicitante: {self.__petitioner}\n"
-            f"- Estado: {self.__item_state}"
+            f"- Estado: {self.__item_state}\n"
+            f"- Observadores: {self.get_observers()}"
         )
 
     def __update_timestamp(self):
