@@ -44,8 +44,15 @@ class MySME:
             print(service)
 
     def _load_supplies(self):
-        #print(self.__dbSupplies.get())
-        pass
+        list_supply = self.__dbSupplies.get()
+        #print(list_supply)
+        for dict in list_supply:
+            supply = self.__item_factory.create_item(ItemTypesEnum.SUPPLY,
+                                                    dict['product'],
+                                                    dict['quantity'],
+                                                    dict['metric_unit'],
+                                                    dict['petitioner'])
+            self.__supplies.append(supply)
 
     def _save_supplies(self):
         for supply in self.__supplies:
