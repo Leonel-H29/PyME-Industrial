@@ -26,10 +26,14 @@ class MySME:
 
         self._load_supplies()
 
-    def add_supply(self, product, quantity, metric_unit, petitioner):
+    def user(self, email: str):
+        return User(email)
 
-        self.__supplies.append(
-            self.__item_factory.create_item(ItemTypesEnum.SUPPLY, product, quantity, metric_unit, petitioner))
+    def add_supply(self, product, quantity, metric_unit, petitioner, user_email):
+        item = self.__item_factory.create_item(ItemTypesEnum.SUPPLY, product, quantity, metric_unit, petitioner)
+        item.add(self.user(user_email))
+        self.__supplies.append(item)
+
 
     def show_supply(self):
 
@@ -56,10 +60,10 @@ class MySME:
                                                     dict['quantity'],
                                                     dict['metric_unit'],
                                                     dict['petitioner'])
-            supply.add(User(dict['subscribers'] + "@mipyme.com"))
+            supply.add(self.user(dict['subscribers']))
             self.__supplies.append(supply)
 
     def _save_supplies(self):
         for supply in self.__supplies:
-            self.__dbSupplies.create(supply, supply.get_petitioner())
+            self.__dbSupplies.create(supply, supply.get_observers())
     
