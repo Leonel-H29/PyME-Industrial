@@ -35,12 +35,12 @@ class MySME:
 
     def add_tps(self, service, provider, petitioner):
         """Adds third party service petition"""
-        self.__third_party__services.append(
+        self.__third_party_services.append(
             self.__item_factory.create_item(ItemTypesEnum.THIRD_PARTY_SERVICES, service, provider, petitioner))
 
     def show_tps(self):
 
-        for service in self.__third_party__services:
+        for service in self.__third_party_services:
             print(service)
 
     def _load_supplies(self):
