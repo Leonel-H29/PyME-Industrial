@@ -12,7 +12,6 @@ from Items.enums.metric_unit_enum import MetricUnitEnum
 
 @pytest.fixture
 def supply():
-    # return Supply(product="Acero", quantity=10, metric_unit="kg", petitioner="Juan")
     return Supply(product="Acero", quantity=10, metric_unit=MetricUnitEnum.SQUARE_METER, petitioner="Juan")
 
 
