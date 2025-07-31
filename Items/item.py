@@ -13,7 +13,7 @@ class Item(Subject):
     __petitioner: str
     __code: str
 
-    def __init__(self, petitioner: str, code: str = None):
+    def __init__(self, petitioner: str, code: str | None = None):
         super().__init__()
         self.__code = self.__validate_code(code)
         self.__created = datetime.now()

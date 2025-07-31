@@ -9,7 +9,7 @@ from Items.enums.item_status_enum import ItemStatusEnum
 
 
 class MySME:
-    def __init__(self):
+    def __init__(self) -> None:
         self.__item_factory = ItemFactory()
         self.__dbSupplies = DBSupply()
         self.__dbTPS = DBThirdPartyServices()
@@ -64,7 +64,7 @@ class MySME:
             data['petitioner'],
             data['code']
         )
-        user = self.user(supply['subscribers'])
+        user = self.user(supply.get_observers())
         supply.add(user.get_email())
         return supply
 
