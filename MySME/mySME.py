@@ -41,7 +41,7 @@ class MySME:
                 item['petitioner'],
                 item['code']
             )
-            user = self.user(supply.get_observers())
+            user = self.user(item['subscribers'])
             supply.add(user.get_email())
             self.__supplies.append(supply)
 
@@ -64,7 +64,7 @@ class MySME:
             data['petitioner'],
             data['code']
         )
-        user = self.user(supply.get_observers())
+        user = self.user(supply['subscribers'])
         supply.add(user.get_email())
         return supply
 
