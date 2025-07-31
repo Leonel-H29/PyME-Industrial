@@ -41,7 +41,8 @@ class MySME:
                 item['petitioner'],
                 item['code']
             )
-            supply.add(self.user(supply['subscribers']))
+            user = self.user(item['subscribers'])
+            supply.add(user.get_email())
             self.__supplies.append(supply)
 
     def show_supplies(self):
@@ -63,7 +64,8 @@ class MySME:
             data['petitioner'],
             data['code']
         )
-        supply.add(self.user(data['subscribers']))
+        user = self.user(supply['subscribers'])
+        supply.add(user.get_email())
         return supply
 
     def update_supply_status(self, code, new_status):
