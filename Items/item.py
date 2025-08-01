@@ -35,7 +35,6 @@ class Item(Subject):
             f"- Última actualización: {self.__last_updated.strftime('%d/%m/%Y %H:%M:%S')}\n"
             f"- Solicitante: {self.__petitioner}\n"
             f"- Estado: {self.__item_state}\n"
-            f"- Observadores: {self.get_observers()}"
         )
 
     @staticmethod
