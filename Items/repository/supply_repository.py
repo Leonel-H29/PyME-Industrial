@@ -1,10 +1,11 @@
 from Items.repository.base_repository import BaseRepository
+from Items.repository.irepository import IRepository
 from db.DBSupply import DBSupply
 from Items.enums.item_types_enum import ItemTypesEnum
 from Items.supply import Supply
 
 
-class SupplyRepository(BaseRepository):
+class SupplyRepository(BaseRepository, IRepository):
 
     def __init__(self) -> None:
         super().__init__()

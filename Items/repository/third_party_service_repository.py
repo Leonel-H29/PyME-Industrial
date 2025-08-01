@@ -1,10 +1,11 @@
 from Items.repository.base_repository import BaseRepository
+from Items.repository.irepository import IRepository
 from db.DBThirdPartyServices import DBThirdPartyServices
 from Items.enums.item_types_enum import ItemTypesEnum
 from Items.third_party_service import ThirdPartyServices
 
 
-class ThirdPartyServiceRepository(BaseRepository):
+class ThirdPartyServiceRepository(BaseRepository, IRepository):
 
     def __init__(self) -> None:
         super().__init__()
