@@ -41,7 +41,7 @@ class MySME:
                 item['petitioner'],
                 item['code']
             )
-            supply.add(self.user(supply['subscribers']))
+            supply.add(self.user(item['subscribers']))
             self.__supplies.append(supply)
 
     def show_supplies(self):
