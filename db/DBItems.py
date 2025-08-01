@@ -15,7 +15,16 @@ class DBItems(ABC):
     def create_table(self):
         pass
 
-    def item_to_dict(self, item: Item, subscribers=""):
+    def item_to_dict(self, item: Item, subscribers=None):
+        if isinstance(subscribers, list):
+            # If the list contains User objects, extract the email
+            subscribers = [u.get_email() if hasattr(
+                u, "get_email") else str(u) for u in subscribers]
+            subscribers = ",".join(subscribers)
+
+        elif subscribers is None:
+            subscribers = ""
+
         return {
             "code": item.get_code(),
             "created": item._Item__created.strftime('%Y-%m-%d %H:%M:%S'),
@@ -25,7 +34,7 @@ class DBItems(ABC):
             "subscribers": subscribers,
         }
 
-    def create(self, item: Item, subscribers=""):
+    def create(self, item: Item, subscribers=None):
         data = self.item_to_dict(item, subscribers)
         self.db.insert(self.TABLE_NAME, data)
 
@@ -36,7 +45,7 @@ class DBItems(ABC):
             rows = self.db.select(self.TABLE_NAME)
         return [dict(row) for row in rows]
 
-    def update(self, item_id, item: Item, subscribers=""):
+    def update(self, item_id, item: Item, subscribers=None):
         data = self.item_to_dict(item, subscribers)
         self.db.update(self.TABLE_NAME, data, "code = ?", (item_id,))
 

@@ -17,12 +17,12 @@ class DBSupply(DBItems):
             product VARCHAR(100),
             quantity INTEGER,
             metric_unit VARCHAR(10),
-            subscribers VARCHAR(50)
+            subscribers TEXT
         );
         """
         self.db.execute(query, commit=True)
 
-    def item_to_dict(self, item: Supply, subscribers=""):
+    def item_to_dict(self, item: Supply, subscribers=None):
         base = super().item_to_dict(item, subscribers)
         return {
             **base,

@@ -16,12 +16,12 @@ class DBThirdPartyServices(DBItems):
             petitioner VARCHAR(50),
             service VARCHAR(100),
             provider VARCHAR(100),
-            subscribers VARCHAR(50)
+            subscribers TEXT
         );
         """
         self.db.execute(query, commit=True)
 
-    def item_to_dict(self, item: ThirdPartyServices, subscribers=""):
+    def item_to_dict(self, item: ThirdPartyServices, subscribers=None):
         base = super().item_to_dict(item, subscribers)
         return {
             **base,

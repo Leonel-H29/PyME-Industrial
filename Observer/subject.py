@@ -4,7 +4,7 @@ from abc import ABC
 
 class Subject(ABC):
 
-    __observers: list
+    __observers: list[Observer]
 
     def __init__(self):
         self.__observers = []
@@ -21,7 +21,4 @@ class Subject(ABC):
             observer.update(item, message)
 
     def get_observers(self) -> str:
-        observers: str = ""
-        for observer in self.__observers:
-            observers += observer.get_email()
-        return observers
+        return self.__observers
