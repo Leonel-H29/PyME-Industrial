@@ -22,12 +22,15 @@ class MySME:
         return User(email)
 
     # ----------- SUPPLIES -----------
-    def add_supply(self, product, quantity, metric_unit, petitioner, user_email, code=None):
+    def add_supply(self, product, quantity, metric_unit, petitioner, user_email, code=None, status=None):
         item = self.__item_factory.create_item(
-            ItemTypesEnum.SUPPLY, product, quantity, metric_unit, petitioner, code)
-        item.add(self.user(user_email))
+            ItemTypesEnum.SUPPLY, product, quantity, metric_unit, petitioner, code, status)
+        user = self.user(user_email)
+
+        item.add(user)
+
         self.__supplies.append(item)
-        self.__dbSupplies.create(item, item.get_observers())
+        self.__dbSupplies.create(item, user.get_email())
         return item
 
     def load_supplies(self):
@@ -39,7 +42,8 @@ class MySME:
                 item['quantity'],
                 item['metric_unit'],
                 item['petitioner'],
-                item['code']
+                item['code'],
+                item['state']
             )
             supply.add(self.user(item['subscribers']))
             self.__supplies.append(supply)
@@ -61,7 +65,8 @@ class MySME:
             data['quantity'],
             data['metric_unit'],
             data['petitioner'],
-            data['code']
+            data['code'],
+            data['state']
         )
         supply.add(self.user(data['subscribers']))
         return supply
@@ -69,13 +74,14 @@ class MySME:
     def update_supply_status(self, code, new_status):
         supply = self.get_supply_by_code(code)
         self.__change_item_status(supply, new_status)
-        self.__dbSupplies.update(code, supply, supply.get_observers())
+        user = supply.get_observers()[0]
+        self.__dbSupplies.update(code, supply, user.get_email())
         self.load_supplies()
 
     # ----------- THIRD PARTY SERVICES -----------
-    def add_third_party_service(self, service, provider, petitioner, user_email, code=None):
+    def add_third_party_service(self, service, provider, petitioner, user_email, code=None, status=None):
         tps = self.__item_factory.create_item(
-            ItemTypesEnum.THIRD_PARTY_SERVICES, service, provider, petitioner, code)
+            ItemTypesEnum.THIRD_PARTY_SERVICES, service, provider, petitioner, code, status)
         tps.add(self.user(user_email))
         self.__third_party_services.append(tps)
         self.__dbTPS.create(tps, tps.get_observers())
@@ -89,7 +95,8 @@ class MySME:
                 item['service'],
                 item['provider'],
                 item['petitioner'],
-                item['code']
+                item['code'],
+                item['state']
             )
             tps.add(self.user(item['subscribers']))
             self.__third_party_services.append(tps)
@@ -110,7 +117,8 @@ class MySME:
             data['service'],
             data['provider'],
             data['petitioner'],
-            data['code']
+            data['code'],
+            data['state']
         )
         tps.add(self.user(data['subscribers']))
 

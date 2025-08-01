@@ -2,8 +2,8 @@ from Items.item import Item
 
 
 class ThirdPartyServices(Item):
-    def __init__(self, service: str, provider: str, petitioner: str, code: str = None):
-        super().__init__(petitioner, code)
+    def __init__(self, service: str, provider: str, petitioner: str, code: str = None, state: str = None):
+        super().__init__(petitioner, code, state)
         self.__service = service
         self.__provider = provider
 

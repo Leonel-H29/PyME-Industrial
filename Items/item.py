@@ -4,6 +4,13 @@ from Items.states.item_state import ItemState
 from Items.states.item_state_required import ItemStateRequired
 from Items.enums.metric_unit_enum import MetricUnitEnum
 from Observer.subject import Subject
+from Items.states.item_state_required import ItemStateRequired
+from Items.states.item_state_quoted import ItemStateQuoted
+from Items.states.item_state_ordered import ItemStateOrdered
+from Items.states.item_state_transported import ItemStateTransported
+from Items.states.item_state_received import ItemStateReceived
+from Items.states.item_state_refunded import ItemStateRefunded
+from Items.states.item_state_canceled import ItemStateCanceled
 
 
 class Item(Subject):
@@ -13,12 +20,12 @@ class Item(Subject):
     __petitioner: str
     __code: str
 
-    def __init__(self, petitioner: str, code: str | None = None):
+    def __init__(self, petitioner: str, code: str | None = None, state: str = None):
         super().__init__()
         self.__code = self.__validate_code(code)
         self.__created = datetime.now()
         self.__last_updated = self.__created
-        self.__item_state = ItemStateRequired()
+        self.__item_state = self._get_state_instance(state_name=state)
         self.__petitioner = petitioner
 
     def __str__(self) -> str:
@@ -30,6 +37,25 @@ class Item(Subject):
             f"- Estado: {self.__item_state}\n"
             f"- Observadores: {self.get_observers()}"
         )
+
+    @staticmethod
+    def _get_state_instance(state_name: str):
+
+        try:
+            if state_name is None:
+                return ItemStateRequired()
+            mapping = {
+                "SOLICITADO": ItemStateRequired,
+                "COTIZADO": ItemStateQuoted,
+                "ORDENADO": ItemStateOrdered,
+                "TRANSPORTADO": ItemStateTransported,
+                "RECIBIDO": ItemStateReceived,
+                "REEMBOLSADO": ItemStateRefunded,
+                "CANCELADO": ItemStateCanceled,
+            }
+            return mapping[state_name.upper()]()
+        except KeyError:
+            raise ValueError(f"Estado '{state_name}' no reconocido")
 
     def __update_timestamp(self):
         self.__last_updated = datetime.now()
