@@ -16,6 +16,20 @@ class BaseRepository:
         for observer in item.get_observers(): 
             print(f"-- {observer}")
         print("\n")
+
+    def _remove_observer(self, item, email, db_instance, load_func):  
+        observers = item.get_observers()
+        observer_to_remove = None
+        for observer in observers:
+            if hasattr(observer, "get_email") and observer.get_email() == email:
+                observer_to_remove = observer
+                break
+        if observer_to_remove:
+            item.remove(observer_to_remove)
+            db_instance.update(item.get_code(), item, item.get_observers())
+            load_func()
+            return True
+        return False
     
     def _add_item(self, item_type_enum, db_instance, item_list, item_args, user_emails, code=None, status=None):
         item = self._item_factory.create_item(item_type_enum, *item_args, code, status)

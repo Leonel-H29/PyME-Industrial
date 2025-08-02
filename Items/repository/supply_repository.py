@@ -53,3 +53,9 @@ class SupplyRepository(BaseRepository, IRepository):
             load_func=self.load
         )
     
+    def remove_observer(self, code, email):
+        item = self.get_by_code(code)
+        if item:
+            return self._remove_observer(item, email, self.__dbSupplies, self.load)
+        return False
+    
