@@ -17,7 +17,7 @@ class ThirdPartyServiceRepository(BaseRepository, IRepository):
             ItemTypesEnum.THIRD_PARTY_SERVICES, service, provider, petitioner, code, status)
 
         for email in user_emails:
-            user = self.user(email)
+            user = self.create_user(email)
             tps.add(user)
 
         self.__third_party_services.append(tps)
@@ -38,7 +38,7 @@ class ThirdPartyServiceRepository(BaseRepository, IRepository):
             subscribers = item['subscribers'].split(
                 ",") if item['subscribers'] else []
             for email in subscribers:
-                tps.add(self.user(email))
+                tps.add(self.create_user(email))
             self.__third_party_services.append(tps)
 
     def show(self):
@@ -63,7 +63,7 @@ class ThirdPartyServiceRepository(BaseRepository, IRepository):
         subscribers = data['subscribers'].split(
             ",") if data['subscribers'] else []
         for email in subscribers:
-            tps.add(self.user(email))
+            tps.add(self.create_user(email))
         return tps
 
     def update(self, code, new_status):

@@ -8,7 +8,7 @@ class BaseRepository:
     def __init__(self) -> None:
         self._item_factory = ItemFactory()
 
-    def user(self, email: str):
+    def create_user(self, email: str):
         return User(email)
 
     def _change_item_status(self, item, new_status: str):

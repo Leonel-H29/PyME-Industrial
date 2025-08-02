@@ -17,7 +17,7 @@ class SupplyRepository(BaseRepository, IRepository):
             ItemTypesEnum.SUPPLY, product, quantity, metric_unit, petitioner, code, status)
 
         for email in user_emails:
-            user = self.user(email)
+            user = self.create_user(email)
             item.add(user)
         self.__supplies.append(item)
 
@@ -39,7 +39,7 @@ class SupplyRepository(BaseRepository, IRepository):
             subscribers = item['subscribers'].split(
                 ",") if item['subscribers'] else []
             for email in subscribers:
-                supply.add(self.user(email))
+                supply.add(self.create_user(email))
             self.__supplies.append(supply)
 
     def show(self):
@@ -65,7 +65,7 @@ class SupplyRepository(BaseRepository, IRepository):
         subscribers = data['subscribers'].split(
             ",") if data['subscribers'] else []
         for email in subscribers:
-            supply.add(self.user(email))
+            supply.add(self.create_user(email))
         return supply
 
     def update(self, code, new_status):
