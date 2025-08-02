@@ -1,5 +1,8 @@
 import re
 from Observer.observer import Observer
+from colorama import Fore, Back, init
+
+init(autoreset=True)
 
 
 class User(Observer):
@@ -20,7 +23,9 @@ class User(Observer):
 
     def update(self, item, message):
         print(
-            f"Notificando a {self.__email}: {message} (\nItem: {item}, \nEstado: {item.get_state()}\n)")
+            Back.BLUE + Fore.WHITE +
+            f"Notificando a {self.__email}: {message} (\nItem: {item}, \nEstado: {item.get_state()}\n)"
+        )
 
     def get_email(self) -> str:
         return self.__email

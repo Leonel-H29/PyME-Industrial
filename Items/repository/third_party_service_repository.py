@@ -13,61 +13,43 @@ class ThirdPartyServiceRepository(BaseRepository, IRepository):
         self.__third_party_services: list[ThirdPartyServices] = []
 
     def add(self, service, provider, petitioner, user_emails, code=None, status=None):
-        tps = self._item_factory.create_item(
-            ItemTypesEnum.THIRD_PARTY_SERVICES, service, provider, petitioner, code, status)
-
-        for email in user_emails:
-            user = self.create_user(email)
-            tps.add(user)
-
-        self.__third_party_services.append(tps)
-        self.__dbTPS.create(tps, tps.get_observers())
-        return tps
+        return self._add_item(
+            item_type_enum=ItemTypesEnum.THIRD_PARTY_SERVICES,
+            db_instance=self.__dbTPS,
+            item_list=self.__third_party_services,
+            item_args=[service, provider, petitioner],
+            user_emails=user_emails,
+            code=code,
+            status=status
+        )
 
     def load(self):
-        self.__third_party_services.clear()
-        for item in self.__dbTPS.get():
-            tps = self._item_factory.create_item(
-                ItemTypesEnum.THIRD_PARTY_SERVICES,
-                item['service'],
-                item['provider'],
-                item['petitioner'],
-                item['code'],
-                item['state']
-            )
-            subscribers = item['subscribers'].split(
-                ",") if item['subscribers'] else []
-            for email in subscribers:
-                tps.add(self.create_user(email))
-            self.__third_party_services.append(tps)
+        self._load_items(
+            item_type_enum=ItemTypesEnum.THIRD_PARTY_SERVICES,
+            item_list=self.__third_party_services,
+            db_instance=self.__dbTPS,
+            field_map=['service', 'provider', 'petitioner', 'code', 'state']
+        )
 
     def show(self):
         for tps in self.__third_party_services:
             print(tps)
+            self.show_observers(tps)
 
     def get_by_code(self, code: str):
-        """Searches for a Third Party Service in the database by its code and returns it as an object."""
-        rows = self.__dbTPS.db.select(
-            self.__dbTPS.TABLE_NAME, "code = ?", (code,))
-        if not rows:
-            return None
-        data = dict(rows[0])
-        tps = self._item_factory.create_item(
-            ItemTypesEnum.THIRD_PARTY_SERVICES,
-            data['service'],
-            data['provider'],
-            data['petitioner'],
-            data['code'],
-            data['state']
+        return self._get_item(
+            item_type_enum=ItemTypesEnum.THIRD_PARTY_SERVICES,
+            db_instance=self.__dbTPS,
+            code=code,
+            field_map=['service', 'provider', 'petitioner', 'code', 'state']
         )
-        subscribers = data['subscribers'].split(
-            ",") if data['subscribers'] else []
-        for email in subscribers:
-            tps.add(self.create_user(email))
-        return tps
 
     def update(self, code, new_status):
-        tps = self.get_by_code(code)
-        self._change_item_status(tps, new_status)
-        self.__dbTPS.update(code, tps, tps.get_observers())
-        self.load()
+        self._update_item(
+            code=code,
+            new_status=new_status,
+            db_instance=self.__dbTPS,
+            get_by_code_func=self.get_by_code,
+            load_func=self.load
+        )
+        
