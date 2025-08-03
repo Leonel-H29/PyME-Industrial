@@ -28,7 +28,8 @@ class SupplyRepository(BaseRepository, IRepository):
             item_type_enum=ItemTypesEnum.SUPPLY,
             item_list=self.__supplies,
             db_instance=self.__dbSupplies,
-            field_map=['product','quantity', 'metric_unit', 'petitioner', 'code', 'state']
+            field_map=['product', 'quantity', 'metric_unit',
+                       'petitioner', 'code', 'state']
         )
 
     def show(self):
@@ -41,9 +42,10 @@ class SupplyRepository(BaseRepository, IRepository):
             item_type_enum=ItemTypesEnum.SUPPLY,
             db_instance=self.__dbSupplies,
             code=code,
-            field_map=['product','quantity', 'metric_unit', 'petitioner', 'code', 'state']
+            field_map=['product', 'quantity', 'metric_unit',
+                       'petitioner', 'code', 'state']
         )
- 
+
     def update(self, code, new_status):
         self._update_item(
             code=code,
@@ -52,10 +54,15 @@ class SupplyRepository(BaseRepository, IRepository):
             get_by_code_func=self.get_by_code,
             load_func=self.load
         )
-    
+
+    def add_observer(self, code, email):
+        item = self.get_by_code(code)
+        if item:
+            return self._add_observer(item, email, self.__dbSupplies, self.load)
+        return False
+
     def remove_observer(self, code, email):
         item = self.get_by_code(code)
         if item:
             return self._remove_observer(item, email, self.__dbSupplies, self.load)
         return False
-    

@@ -52,10 +52,15 @@ class ThirdPartyServiceRepository(BaseRepository, IRepository):
             get_by_code_func=self.get_by_code,
             load_func=self.load
         )
-    
+
+    def add_observer(self, code, email):
+        item = self.get_by_code(code)
+        if item:
+            return self._add_observer(item, email, self.__dbTPS, self.load)
+        return False
+
     def remove_observer(self, code, email):
         item = self.get_by_code(code)
         if item:
             return self._remove_observer(item, email, self.__dbTPS, self.load)
         return False
-        

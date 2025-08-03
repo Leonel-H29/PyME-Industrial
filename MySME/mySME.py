@@ -27,7 +27,10 @@ class MySME:
 
     def update_supply_status(self, code, new_status):
         self.__supplyRepository.update(code, new_status)
-    
+
+    def add_supply_observer(self, code, email):
+        return self.__supplyRepository.add_observer(code, email)
+
     def remove_supply_observer(self, code, email):
         self.__supplyRepository.remove_observer(code, email)
 
@@ -46,6 +49,9 @@ class MySME:
 
     def update_third_party_service_status(self, code, new_status):
         self.__thirdPartyServiceRepository.update(code, new_status)
-    
+
+    def add_third_party_service_observer(self, code, email):
+        return self.__thirdPartyServiceRepository.add_observer(code, email)
+
     def remove_third_party_service_observer(self, code, email):
         self.__thirdPartyServiceRepository.remove_observer(code, email)

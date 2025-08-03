@@ -10,14 +10,26 @@ class BaseRepository:
 
     def create_user(self, email: str):
         return User(email)
-    
+
     def show_observers(self, item):
         print(f"** Observadores: ")
-        for observer in item.get_observers(): 
+        for observer in item.get_observers():
             print(f"-- {observer}")
         print("\n")
 
-    def _remove_observer(self, item, email, db_instance, load_func):  
+    def _add_observer(self, item, email, db_instance, load_func):
+        # Check if that observer already exists
+        for observer in item.get_observers():
+            if hasattr(observer, "get_email") and observer.get_email() == email:
+                return False
+
+        user = self.create_user(email)
+        item.add(user)
+        db_instance.update(item.get_code(), item, item.get_observers())
+        load_func()
+        return True
+
+    def _remove_observer(self, item, email, db_instance, load_func):
         observers = item.get_observers()
         observer_to_remove = None
         for observer in observers:
@@ -30,9 +42,10 @@ class BaseRepository:
             load_func()
             return True
         return False
-    
+
     def _add_item(self, item_type_enum, db_instance, item_list, item_args, user_emails, code=None, status=None):
-        item = self._item_factory.create_item(item_type_enum, *item_args, code, status)
+        item = self._item_factory.create_item(
+            item_type_enum, *item_args, code, status)
         for email in user_emails:
             user = self.create_user(email)
             item.add(user)
@@ -45,19 +58,22 @@ class BaseRepository:
         for item in db_instance.get():
             args = [item[field] for field in field_map]
             obj = self._item_factory.create_item(item_type_enum, *args)
-            subscribers = item['subscribers'].split(",") if item['subscribers'] else []
+            subscribers = item['subscribers'].split(
+                ",") if item['subscribers'] else []
             for email in subscribers:
                 obj.add(self.create_user(email))
             item_list.append(obj)
 
     def _get_item(self, item_type_enum, db_instance, code, field_map):
-        rows = db_instance.db.select(db_instance.TABLE_NAME, "code = ?", (code,))
+        rows = db_instance.db.select(
+            db_instance.TABLE_NAME, "code = ?", (code,))
         if not rows:
             return None
         data = dict(rows[0])
         args = [data[field] for field in field_map]
         obj = self._item_factory.create_item(item_type_enum, *args)
-        subscribers = data['subscribers'].split(",") if data['subscribers'] else []
+        subscribers = data['subscribers'].split(
+            ",") if data['subscribers'] else []
         for email in subscribers:
             obj.add(self.create_user(email))
         return obj
@@ -67,8 +83,7 @@ class BaseRepository:
         self.__change_item_status(item, new_status)
         db_instance.update(code, item, item.get_observers())
         load_func()
-        
-        
+
     def __change_item_status(self, item, new_status: str):
         try:
             status_methods = {
