@@ -1,51 +1,66 @@
-from Items.item_state import ItemState
-from Items.item_state_required import ItemStateRequired
+from uuid import uuid4
+from datetime import datetime
+from Items.states.item_state import ItemState
+from Items.states.item_state_required import ItemStateRequired
 from Items.enums.metric_unit_enum import MetricUnitEnum
 from Observer.subject import Subject
+from Items.states.item_state_required import ItemStateRequired
+from Items.states.item_state_quoted import ItemStateQuoted
+from Items.states.item_state_ordered import ItemStateOrdered
+from Items.states.item_state_transported import ItemStateTransported
+from Items.states.item_state_received import ItemStateReceived
+from Items.states.item_state_refunded import ItemStateRefunded
+from Items.states.item_state_canceled import ItemStateCanceled
 
 
 class Item(Subject):
-    __product: str
-    __metric_unit: MetricUnitEnum
-    __quantity: int
-    __petitioner: str
-    __production_area: str
+    __created: datetime
+    __last_updated: datetime
     __item_state: ItemState
+    __petitioner: str
+    __code: str
 
-    def __init__(self, product: str, metric_unit: MetricUnitEnum, quantity: int, petitioner: str, production_area: str):
+    def __init__(self, petitioner: str, code: str | None = None, state: str = None):
         super().__init__()
-        self.__product = product
-        self.__metric_unit = self.__validate_metric_unit(metric_unit)
-        self.__quantity = quantity
+        self.__code = self.__validate_code(code)
+        self.__created = datetime.now()
+        self.__last_updated = self.__created
+        self.__item_state = self._get_state_instance(state_name=state)
         self.__petitioner = petitioner
-        self.__production_area = production_area
-        self.__item_state = ItemStateRequired()
 
     def __str__(self) -> str:
-        return f"""
-            - Item: {self.__product}
-            - Cantidad: {self.__quantity}
-            - UM: {self.__metric_unit}
-            - Área de producción: {self.__production_area}
-            - Solicitante: {self.__petitioner}
-            - Estado: {self.__item_state}
-        """
+        return (
+            f"- Código: {self.__code}\n"
+            f"- Creado: {self.__created.strftime('%d/%m/%Y %H:%M:%S')}\n"
+            f"- Última actualización: {self.__last_updated.strftime('%d/%m/%Y %H:%M:%S')}\n"
+            f"- Solicitante: {self.__petitioner}\n"
+            f"- Estado: {self.__item_state}\n"
+        )
 
-    def __validate_metric_unit(self, metric_unit) -> str:
-        if not isinstance(metric_unit, (MetricUnitEnum, str)):
-            raise TypeError(
-                f"Tipo inválido para unidad métrica: {type(metric_unit)}. Debe ser str o MetricUnitEnum.")
-
-        if isinstance(metric_unit, MetricUnitEnum):
-            return metric_unit.value
+    @staticmethod
+    def _get_state_instance(state_name: str):
 
         try:
-            enum_value = MetricUnitEnum(metric_unit)
-            return enum_value.value
-        except ValueError:
-            valid_units = [e.value for e in MetricUnitEnum]
-            raise ValueError(
-                f"Unidad métrica inválida: {metric_unit}. Debe ser una de {valid_units}.")
+            if state_name is None:
+                return ItemStateRequired()
+            mapping = {
+                "SOLICITADO": ItemStateRequired,
+                "COTIZADO": ItemStateQuoted,
+                "ORDENADO": ItemStateOrdered,
+                "TRANSPORTADO": ItemStateTransported,
+                "RECIBIDO": ItemStateReceived,
+                "REEMBOLSADO": ItemStateRefunded,
+                "CANCELADO": ItemStateCanceled,
+            }
+            return mapping[state_name.upper()]()
+        except KeyError:
+            raise ValueError(f"Estado '{state_name}' no reconocido")
+
+    def __update_timestamp(self):
+        self.__last_updated = datetime.now()
+
+    def __validate_code(self, code):
+        return code if code else uuid4().hex[:10]
 
     def quote(self) -> None:
         self.__item_state.quote(self)
@@ -67,7 +82,14 @@ class Item(Subject):
 
     def set_state(self, new_state: ItemState):
         self.__item_state = new_state
+        self.__update_timestamp()
         self.notify(self, f"El estado del item cambió a {self.get_state()}")
 
     def get_state(self):
         return self.__item_state
+
+    def get_petitioner(self):
+        return self.__petitioner
+
+    def get_code(self):
+        return self.__code

@@ -4,17 +4,21 @@ from abc import ABC
 
 class Subject(ABC):
 
-    __observers: list
+    __observers: list[Observer]
 
     def __init__(self):
         self.__observers = []
 
     def add(self, observer: Observer) -> None:
-        self.__observers.append(observer)
+        if observer not in self.__observers:
+            self.__observers.append(observer)
 
     def remove(self, observer: Observer) -> None:
         self.__observers.remove(observer)
 
-    def notify(self, item, message):
+    def notify(self, item, message) -> None:
         for observer in self.__observers:
             observer.update(item, message)
+
+    def get_observers(self) -> list[Observer]:
+        return self.__observers
