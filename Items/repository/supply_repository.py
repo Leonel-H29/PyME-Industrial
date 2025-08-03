@@ -12,7 +12,7 @@ class SupplyRepository(BaseRepository, IRepository):
         self.__dbSupplies = DBSupply()
         self.__supplies: list[Supply] = []
 
-    def add(self, product, quantity, metric_unit, petitioner, user_emails, code=None, status=None):
+    def add(self, product: str, quantity: int, metric_unit: str, petitioner: str, user_emails: list[str], code=None, status=None) -> Supply:
         return self._add_item(
             item_type_enum=ItemTypesEnum.SUPPLY,
             db_instance=self.__dbSupplies,
@@ -23,7 +23,7 @@ class SupplyRepository(BaseRepository, IRepository):
             status=status
         )
 
-    def load(self):
+    def load(self) -> None:
         self._load_items(
             item_type_enum=ItemTypesEnum.SUPPLY,
             item_list=self.__supplies,
@@ -32,12 +32,12 @@ class SupplyRepository(BaseRepository, IRepository):
                        'petitioner', 'code', 'state']
         )
 
-    def show(self):
+    def show(self) -> None:
         for supply in self.__supplies:
             print(supply)
             self.show_observers(supply)
 
-    def get_by_code(self, code: str):
+    def get_by_code(self, code: str) -> Supply:
         return self._get_item(
             item_type_enum=ItemTypesEnum.SUPPLY,
             db_instance=self.__dbSupplies,
@@ -46,7 +46,7 @@ class SupplyRepository(BaseRepository, IRepository):
                        'petitioner', 'code', 'state']
         )
 
-    def update(self, code, new_status):
+    def update(self, code: str, new_status: str) -> None:
         self._update_item(
             code=code,
             new_status=new_status,
@@ -55,13 +55,13 @@ class SupplyRepository(BaseRepository, IRepository):
             load_func=self.load
         )
 
-    def add_observer(self, code, email):
+    def add_observer(self, code: str, email: str) -> bool:
         item = self.get_by_code(code)
         if item:
             return self._add_observer(item, email, self.__dbSupplies, self.load)
         return False
 
-    def remove_observer(self, code, email):
+    def remove_observer(self, code: str, email: str) -> bool:
         item = self.get_by_code(code)
         if item:
             return self._remove_observer(item, email, self.__dbSupplies, self.load)

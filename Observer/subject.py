@@ -16,9 +16,9 @@ class Subject(ABC):
     def remove(self, observer: Observer) -> None:
         self.__observers.remove(observer)
 
-    def notify(self, item, message):
+    def notify(self, item, message) -> None:
         for observer in self.__observers:
             observer.update(item, message)
 
-    def get_observers(self) -> str:
+    def get_observers(self) -> list[Observer]:
         return self.__observers

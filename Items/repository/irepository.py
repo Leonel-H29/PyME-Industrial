@@ -19,5 +19,13 @@ class IRepository(ABC):
         pass
 
     @abstractmethod
-    def update(self, code, new_status):
+    def update(self, code: str, new_status: str):
+        pass
+
+    @abstractmethod
+    def add_observer(self, code: str, email: str):
+        pass
+
+    @abstractmethod
+    def remove_observer(self, code: str, email: str):
         pass

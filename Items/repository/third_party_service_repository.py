@@ -12,7 +12,7 @@ class ThirdPartyServiceRepository(BaseRepository, IRepository):
         self.__dbTPS = DBThirdPartyServices()
         self.__third_party_services: list[ThirdPartyServices] = []
 
-    def add(self, service, provider, petitioner, user_emails, code=None, status=None):
+    def add(self, service: str, provider: str, petitioner: str, user_emails: list[str], code=None, status=None) -> ThirdPartyServices:
         return self._add_item(
             item_type_enum=ItemTypesEnum.THIRD_PARTY_SERVICES,
             db_instance=self.__dbTPS,
@@ -23,7 +23,7 @@ class ThirdPartyServiceRepository(BaseRepository, IRepository):
             status=status
         )
 
-    def load(self):
+    def load(self) -> None:
         self._load_items(
             item_type_enum=ItemTypesEnum.THIRD_PARTY_SERVICES,
             item_list=self.__third_party_services,
@@ -31,12 +31,12 @@ class ThirdPartyServiceRepository(BaseRepository, IRepository):
             field_map=['service', 'provider', 'petitioner', 'code', 'state']
         )
 
-    def show(self):
+    def show(self) -> None:
         for tps in self.__third_party_services:
             print(tps)
             self.show_observers(tps)
 
-    def get_by_code(self, code: str):
+    def get_by_code(self, code: str) -> ThirdPartyServices:
         return self._get_item(
             item_type_enum=ItemTypesEnum.THIRD_PARTY_SERVICES,
             db_instance=self.__dbTPS,
@@ -44,7 +44,7 @@ class ThirdPartyServiceRepository(BaseRepository, IRepository):
             field_map=['service', 'provider', 'petitioner', 'code', 'state']
         )
 
-    def update(self, code, new_status):
+    def update(self, code: str, new_status: str) -> None:
         self._update_item(
             code=code,
             new_status=new_status,
@@ -53,13 +53,13 @@ class ThirdPartyServiceRepository(BaseRepository, IRepository):
             load_func=self.load
         )
 
-    def add_observer(self, code, email):
+    def add_observer(self, code: str, email: str) -> bool:
         item = self.get_by_code(code)
         if item:
             return self._add_observer(item, email, self.__dbTPS, self.load)
         return False
 
-    def remove_observer(self, code, email):
+    def remove_observer(self, code: str, email: str) -> bool:
         item = self.get_by_code(code)
         if item:
             return self._remove_observer(item, email, self.__dbTPS, self.load)
