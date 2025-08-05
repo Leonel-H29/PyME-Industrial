@@ -49,7 +49,7 @@ class Item(Subject):
                 "ORDENADO": ItemStateOrdered,
                 "TRANSPORTADO": ItemStateTransported,
                 "RECIBIDO": ItemStateReceived,
-                "REEMBOLSADO": ItemStateRefunded,
+                "DEVUELTO": ItemStateRefunded,
                 "CANCELADO": ItemStateCanceled,
             }
             return mapping[state_name.upper()]()
