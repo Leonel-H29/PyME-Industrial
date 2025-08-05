@@ -1,5 +1,6 @@
 from db.DBItems import DBItems
 from Items.third_party_service import ThirdPartyServices
+from Observer.observer import Observer
 
 
 class DBThirdPartyServices(DBItems):
@@ -21,7 +22,7 @@ class DBThirdPartyServices(DBItems):
         """
         self.db.execute(query, commit=True)
 
-    def item_to_dict(self, item: ThirdPartyServices, subscribers=None):
+    def item_to_dict(self, item: ThirdPartyServices, subscribers: list[Observer] = []):
         base = super().item_to_dict(item, subscribers)
         return {
             **base,
