@@ -17,7 +17,7 @@ class DBItems(ABC):
         pass
 
     def __get_subscribers_str(self, subscribers: list[Observer]) -> str:
-        if len(subscribers) < 0:
+        if len(subscribers) == 0:
             return ""
 
         emails = [u.get_email() if hasattr(
