@@ -1,5 +1,6 @@
 from db.DBItems import DBItems
 from Items.supply import Supply
+from Observer.observer import Observer
 
 
 class DBSupply(DBItems):
@@ -22,7 +23,7 @@ class DBSupply(DBItems):
         """
         self.db.execute(query, commit=True)
 
-    def item_to_dict(self, item: Supply, subscribers=None):
+    def item_to_dict(self, item: Supply, subscribers: list[Observer] = []):
         base = super().item_to_dict(item, subscribers)
         return {
             **base,
